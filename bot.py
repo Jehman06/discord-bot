@@ -3,15 +3,6 @@ from discord.ext import commands
 from dotenv import load_dotenv
 import os
 
-class RandomContentGenerator(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
-
-    @commands.command(name="generate_content")
-    async def generate_content(self, ctx):
-        # Content generation logic here
-        await ctx.send('Random content generated!')
-
 class MyBot(commands.Bot):
     def __init__(self, command_prefix):
         # Define intents
@@ -20,23 +11,43 @@ class MyBot(commands.Bot):
         # Pass intents to super().__init__
         super().__init__(command_prefix, intents=intents)
 
-        # Initialize your cogs here
-        self.add_cog(RandomContentGenerator(self))
+        # Set initial_extensions as an attribute of the bot
+        self.initial_extensions = ['cogs.fun']
 
-# Load environment variables
-load_dotenv()
+    async def on_ready(self):
+        print(f"{self.user} has connected to Discord!")
+        await self.load_extensions()
+        print("Loaded extensions:")
+        for extension in self.extensions:
+            print(f" - {extension}")
+        print("Bot is ready!")
 
-# Get bot's token from the environment variable
-TOKEN = os.getenv('DISCORD_TOKEN')
+    async def load_extensions(self):
+        for extension in self.initial_extensions:
+            await self.load_extension(extension)
 
-# Create an instance of custom bot class
-bot = MyBot(command_prefix='!')
+    @commands.command(name="keyword")
+    async def cmd_keyword(self, ctx):
+        # Respond to the keyword with a message
+        await ctx.send("You used the keyword! Try !meme or !commands")
 
-# Event to run when the bot is ready
-@bot.event
-async def on_ready():
-    print(f"{bot.user} has connected to Discord!")
-    await bot.add_cog(RandomContentGenerator(bot))
+    @commands.command(name="commands")
+    async def cmd_list_commands(self, ctx):
+        command_list = [command.name for command in self.commands]
+        await ctx.send(f"Available commands: {', '.join(command_list)}")
 
-# Run the bot
-bot.run(TOKEN)
+def main():
+    # Load environment variables
+    load_dotenv()
+
+    # Get bot's token from the environment variable
+    TOKEN = os.getenv('DISCORD_TOKEN')
+
+    # Create an instance of the custom bot class
+    bot = MyBot(command_prefix='!')
+
+    # Run the bot
+    bot.run(TOKEN)
+
+if __name__ == "__main__":
+    main()

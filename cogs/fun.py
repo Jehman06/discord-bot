@@ -1,0 +1,52 @@
+import discord
+from discord.ext import commands
+import requests
+
+class FunCommands(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command(name="joke")
+    async def joke(self, ctx):
+        response = requests.get("https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit")
+
+        if response.status_code == 200:
+            data = response.json()
+
+            if "setup" in data:
+                joke_setup = data["setup"]
+                if "delivery" in data:
+                    joke_delivery = data["delivery"]
+
+                    await ctx.send(f"{joke_setup} {joke_delivery}")
+            
+            else:
+                ctx.send("Sorry, try again later.")
+
+    @commands.command(name="meme")
+    async def meme(self, ctx):
+        # Send a request to the meme API
+        response = requests.get("https://meme-api.com/gimme")
+
+        # Check if the request was successful (status code 200)
+        if response.status_code == 200:
+            # Extract the JSON content from the response
+            data = response.json()
+
+            # Check if the "url" key is present in the JSON content
+            if "url" in data:
+                # Access the meme URL from the JSON content
+                meme_url = data["url"]
+
+                # Send the meme URL to the channel
+                await ctx.send(f"Here's a meme: {meme_url}")
+            else:
+                # Handle the case where the "url" key is not present
+                await ctx.send("Sorry, I couldn't fetch a meme at the moment. Try again later.")
+        else:
+            # Handle the case where the request was not successful
+            await ctx.send("Sorry, I couldn't fetch a meme at the moment. Try again later.")
+
+async def setup(bot):
+    await bot.add_cog(FunCommands(bot))
+    print("FunCommands cog has been loaded.")
