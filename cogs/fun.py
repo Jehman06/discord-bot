@@ -55,19 +55,22 @@ class FunCommands(commands.Cog):
     # JOKE
     @commands.command(name="joke")
     async def joke(self, ctx):
-        response = requests.get("https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit")
+        max_attempts = 3
 
-        if response.status_code == 200:
-            data = response.json()
+        for _ in range(max_attempts):
+            response = requests.get("https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit")
+        
+            if response.status_code == 200:
+                data = response.json()
 
-            if "setup" in data:
-                joke_setup = data["setup"]
-                await ctx.send(f"{joke_setup}")
-                if "delivery" in data:
-                    joke_delivery = data["delivery"]
-                    await ctx.send(f"{joke_delivery}")
-            else:
-                await ctx.send("Sorry, try again later.")
+                if "setup" in data and data["setup"]:
+                    joke_setup = data["setup"]
+                    await ctx.send(f"{joke_setup}")
+
+                    if "delivery" in data:
+                        joke_delivery = data["delivery"]
+                        await ctx.send(f"{joke_delivery}")
+                    return  # Exit the loop if a valid joke is found
 
 async def setup(bot):
     await bot.add_cog(FunCommands(bot))
