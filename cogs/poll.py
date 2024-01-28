@@ -78,21 +78,12 @@ class Polls(commands.Cog):
         import re
         match = re.search(r'Poll #(\d+)', reaction.message.content)
         if not match:
-            print("No match for poll_id")
-            print(f"Message content: {reaction.message.content}")
-            print(f"Message ID: {reaction.message.id}")
-            print(f"Reaction emoji: {reaction.emoji}")
             if str(reaction.emoji) == "🇧":  # Adjust the emoji representation as needed
                 # Increment the vote count for the chosen option
                 self.polls[poll_id]["votes"][option] += 1
-                print(f"Vote for option {option} in Poll #{poll_id}")
             return
 
         poll_id = int(match.group(1))
-        print(f"Matched poll_id: {poll_id}")
-        print(f"Message content: {reaction.message.content}")
-        print(f"Message ID: {reaction.message.id}")
-        print(f"Reaction emoji: {reaction.emoji}")
 
         # Check if the emoji corresponds to a poll option
         for i, option in enumerate(self.polls[poll_id]["options"], 1):
@@ -100,9 +91,6 @@ class Polls(commands.Cog):
             if str(reaction.emoji) == unicode_regional_indicator:
                 # Increment the vote count for the chosen option
                 self.polls[poll_id]["votes"][option] += 1
-                print(f"Vote for option {option} in Poll #{poll_id}")
-
-        print(f"Polls after vote: {self.polls}")
 
 async def setup(bot):
     await bot.add_cog(Polls(bot))
