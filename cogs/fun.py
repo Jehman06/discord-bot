@@ -6,6 +6,7 @@ class FunCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    # MEME
     @commands.command(name="meme")
     async def meme(self, ctx):
         # Send a request to the meme API
@@ -30,9 +31,10 @@ class FunCommands(commands.Cog):
             # Handle the case where the request was not successful
             await ctx.send("Sorry, I couldn't fetch a meme at the moment. Try again later.")
 
+    # STORY
     @commands.command(name="story")
     async def story(self, ctx):
-        response = requests.get("https://shortstories-api.onrender.com")
+        response = requests.get("https://shortstories-api.onrender.com") # https://github.com/poseidon-code/shortstories-api
 
         if response.status_code == 200:
             data = response.json()
@@ -50,6 +52,7 @@ class FunCommands(commands.Cog):
         else:
             await ctx.send("Sorry, try again later")
 
+    # JOKE
     @commands.command(name="joke")
     async def joke(self, ctx):
         response = requests.get("https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit")
@@ -64,7 +67,7 @@ class FunCommands(commands.Cog):
                     joke_delivery = data["delivery"]
                     await ctx.send(f"{joke_delivery}")
             else:
-                ctx.send("Sorry, try again later.")
+                await ctx.send("Sorry, try again later.")
 
 async def setup(bot):
     await bot.add_cog(FunCommands(bot))
