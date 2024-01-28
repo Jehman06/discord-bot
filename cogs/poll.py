@@ -38,6 +38,7 @@ class Polls(commands.Cog):
             return
 
         # Get poll data
+        question = self.polls[poll_id]["question"]
         options = self.polls[poll_id]["options"]
         votes = [self.polls[poll_id]["votes"][option] for option in options]
 
@@ -45,7 +46,7 @@ class Polls(commands.Cog):
         plt.bar(options, votes)
         plt.xlabel("Options")
         plt.ylabel("Votes")
-        plt.title(f"Poll #{poll_id} Results")
+        plt.title(f"Poll #{poll_id} Results - {question}")
 
         # Save the plot to a BytesIO object
         image_stream = BytesIO()
