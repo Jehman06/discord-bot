@@ -1,4 +1,3 @@
-import discord
 from discord.ext import commands, tasks
 from datetime import datetime, timedelta
 
@@ -8,38 +7,58 @@ class Tools(commands.Cog):
         self.reminders = []
         self.check_reminder.start()
 
-    @commands.command(name="remindme", help="Set a reminder. Format: !remindme <time> <message>")
-    async def remindme(self, ctx, time, *, message):
+    @commands.command(name="remindme", help="Set a private reminder. Format: !remindme <time> <message>")
+    async def remind_me(self, ctx, time, *, message=""):
         try:
+            # For private reminders, delete the command after 0.1 second
             await ctx.message.delete(delay=0.1)
 
             # Parse the time input from the user
             duration = timedelta(seconds=int(time))
             reminder_time = datetime.utcnow() + duration
 
-            # Store the reminder in a list
-            self.reminders.append((ctx.author.id, ctx.guild.id, reminder_time, message))
+            # Store the reminder in a list with the target as "user"
+            self.reminders.append(("user", ctx.author.id, ctx.guild.id, ctx.channel.id, reminder_time, message))
 
-            # Send confirmation to the server channel but make it ephemeral
-            await ctx.author.send(f"Got it! I will remind you about '{message}' in {time} seconds ({ctx.guild.name})")
+            # Send confirmation to the server channel
+            await ctx.author.send(f'Got it! I will remind you about "{message}" in {time} seconds ({ctx.guild.name})')
 
         except ValueError:
             await ctx.author.send(f"Invalid time format. Please use an integer for seconds ({ctx.guild.name})")
+
+    @commands.command(name="remindchannel", help="Set a channel reminder. Format: <time> <message>")
+    async def remind_channel(self, ctx, time, *, message):
+        try:
+            # Parse the time input from the user
+            duration = timedelta(seconds=int(time))
+            reminder_time = datetime.utcnow() + duration
+
+            # Store the reminder in a list with the target as "channel"
+            self.reminders.append(("channel", ctx.author.id, ctx.guild.id, ctx.channel.id, reminder_time, message))
+
+            # Send confirmation to the server channel
+            await ctx.send(f'Got it! I will remind the channel about "{message}" in {time} seconds')
+
+        except ValueError:
+            await ctx.send(f"Invalid time format. Please use an integer for seconds")
 
     @tasks.loop(seconds=10)
     async def check_reminder(self,):
         current_time = datetime.utcnow()
 
         for reminder in self.reminders:
-            user_id, guild_id, reminder_time, message = reminder
+            target, user_id, guild_id, channel_id, reminder_time, message = reminder
             guild = self.bot.get_guild(guild_id)
+            user = self.bot.get_user(user_id)
+            channel = guild.get_channel(channel_id) if guild else None
 
-            if current_time >= reminder_time:
-                user = self.bot.get_user(user_id)
-
-                if user and guild:
+            if current_time >= reminder_time and guild and user and channel:
+                if target == "user":
                     # Send the reminder as a private message
-                    await user.send(f"Reminder for {guild.name}: {message}")
+                    await user.send(f"❗Reminder for {guild.name}: {message}")
+                elif target == "channel":
+                    # Send the reminder to the entire channel
+                    await channel.send(f"❗Reminder: {message}")
 
                 # Remove the reminder from the list
                 self.reminders.remove(reminder)
