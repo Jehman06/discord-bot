@@ -24,7 +24,7 @@ class Polls(commands.Cog):
             emoji = chr(0x1F1E6 + i - 1)
             await poll_message.add_reaction(emoji)
 
-    @commands.command(name="pollgraph", help="!pollgraph pollnumber")
+    @commands.command(name="pollgraph", help="Format: !pollgraph pollnumber")
     async def poll_graph(self, ctx, poll_id):
         # Check if the poll_id is valid
         try:
