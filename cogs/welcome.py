@@ -24,7 +24,7 @@ class Welcome(commands.Cog):
         config = self.load_config()
         return config.get("welcome_channels", {}).get(str(guild.id))
 
-    @commands.command(name="setwelcomechannel")
+    @commands.command(name="setwelcomechannel", help="Admins only")
     @commands.has_permissions(administrator=True)
     async def set_welcome_channel(self, ctx, channel: discord.TextChannel = None):
         # Load configuration
@@ -45,7 +45,7 @@ class Welcome(commands.Cog):
         await ctx.send(f"Welcome channel set to {channel.mention}")
         print(f"Configuration after setting welcome channel: {config}")
 
-    @commands.command(name="unsetwelcomechannel")
+    @commands.command(name="unsetwelcomechannel", help="Admins only")
     @commands.has_permissions(administrator=True)
     async def unset_welcome_channel(self, ctx):
         # Load configuration

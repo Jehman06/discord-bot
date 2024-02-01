@@ -8,7 +8,7 @@ class Polls(commands.Cog):
         self.bot = bot
         self.polls = {}
 
-    @commands.command(name="createpoll")
+    @commands.command(name="createpoll", help='Format: !createpoll <"question>" <"answer 1" "answer 2" "...">')
     async def create_poll(self, ctx, question, *options):
         poll_id = len(self.polls) + 1
         self.polls[poll_id] = {"question": question, "options": options, "votes": {option: 0 for option in options}}
@@ -24,7 +24,7 @@ class Polls(commands.Cog):
             emoji = chr(0x1F1E6 + i - 1)
             await poll_message.add_reaction(emoji)
 
-    @commands.command(name="pollgraph")
+    @commands.command(name="pollgraph", help="!pollgraph pollnumber")
     async def poll_graph(self, ctx, poll_id):
         # Check if the poll_id is valid
         try:
