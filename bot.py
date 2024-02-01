@@ -12,7 +12,7 @@ class MyBot(commands.Bot):
         super().__init__(command_prefix, intents=intents)
 
         # Set initial_extensions as an attribute of the bot
-        self.initial_extensions = ['cogs.general', 'cogs.fun', 'cogs.poll']
+        self.initial_extensions = ['cogs.general', 'cogs.welcome', 'cogs.fun', 'cogs.poll']
 
     async def on_ready(self):
         print(f"{self.user} has connected to Discord!")
