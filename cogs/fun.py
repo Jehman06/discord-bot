@@ -73,4 +73,3 @@ class FunCommands(commands.Cog):
 
 async def setup(bot):
     await bot.add_cog(FunCommands(bot))
-    print("FunCommands cog has been loaded.")
