@@ -8,7 +8,7 @@ class Tools(commands.Cog):
         self.reminders = []
         self.check_reminder.start()
 
-    @commands.command(name="remindme", help="Set a private reminder. Format: !remindme <1h30m or 30m> <message>")
+    @commands.command(name="remindme", help="Set a private reminder using !remindme <XhXm> or <Xm>.")
     async def remind_me(self, ctx, time, *, message=""):
         try:
             # For private reminders, delete the command after 0.1 second
@@ -27,7 +27,7 @@ class Tools(commands.Cog):
         except ValueError as e:
             await ctx.author.send(str(e))
 
-    @commands.command(name="remindchannel", help="Set a channel reminder. Format: <time> <message>")
+    @commands.command(name="remindchannel", help="Set a channel reminder using !remindchannel <XhXm> or <Xm>")
     async def remind_channel(self, ctx, time, *, message):
         try:
             # Parse the time input from the user
