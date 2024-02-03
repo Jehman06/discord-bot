@@ -70,4 +70,4 @@ DigiBuddy is a versatile Discord bot designed to assist with various daily tasks
 > [!NOTE]
 > If no welcome channel is set, new members will not receive a welcome message.
 >
-> The welcome message is "Welcome to `<server>`, `<username>` 🎉!
+> The default welcome message is "Welcome to `<server>`, `<username>` 🎉!
