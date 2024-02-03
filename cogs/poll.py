@@ -8,7 +8,7 @@ class Polls(commands.Cog):
         self.bot = bot
         self.polls = {}
 
-    @commands.command(name="createpoll", help='Format: !createpoll <"question>" <"answer 1" "answer 2" "...">')
+    @commands.command(name="createpoll", help='Format: !createpoll <question> <answer 1> <answer 2> <...>')
     async def create_poll(self, ctx, question, *options):
         poll_id = len(self.polls) + 1
         self.polls[poll_id] = {"question": question, "options": options, "votes": {option: 0 for option in options}}
