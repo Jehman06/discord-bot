@@ -6,7 +6,7 @@ DigiBuddy is a versatile Discord bot designed to assist with various daily tasks
 
 ## Getting Started
 
-1. Invite your bot to your server by clicking [here](https://discord.com/api/oauth2/authorize?client_id=1199547223843807362&permissions=8&scope=bot).
+1. Invite the bot to your server by clicking [here](https://discord.com/api/oauth2/authorize?client_id=1199547223843807362&permissions=8&scope=bot).
 2. Start using the bot in your server.
 
 ## Commands
