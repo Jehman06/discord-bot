@@ -44,6 +44,9 @@ DigiBuddy is a versatile Discord bot designed to assist with various daily tasks
 | !createpoll `<question>` `<answer 1>` `<answer 2>` `<...>` | Create a poll. All polls will be given a poll id, starting at 1, then 2 etc.  |
 | !pollgraph `<poll_id>` | Display a graph for a specific poll |
 
+> [!NOTE]
+> If the question or answers are composed of several words, put them in quotation marks ("")
+
 
 ### Tools commands
 
