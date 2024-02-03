@@ -64,7 +64,8 @@ DigiBuddy is a versatile Discord bot designed to assist with various daily tasks
 | Command | Description |
 | --- | --- |
 | !setwelcomechannel | Set the current channel as the welcome channel. Every new member will receive a welcome message in this channel |
-| !unsetwelcomechannel | Unset the current channel from the welcome channel. | 
+| !unsetwelcomechannel | Unset the current channel from the welcome channel. |
+| !setwelcomemessage `<message>` | Set a welcome message |
 
 > [!NOTE]
 > If no welcome channel is set, new members will not receive a welcome message.
