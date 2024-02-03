@@ -69,10 +69,10 @@ class Tools(commands.Cog):
             if current_time >= reminder_time and guild and user and channel:
                 if target == "user":
                     # Send the reminder as a private message
-                    await user.send(f"❗Reminder for {guild.name}: {message}")
+                    await user.send(f"❗ Reminder for {guild.name}: {message} ❗")
                 elif target == "channel":
                     # Send the reminder to the entire channel
-                    await channel.send(f"❗Reminder: {message}")
+                    await channel.send(f"❗ Reminder: {message} ❗")
 
                 # Remove the reminder from the list
                 self.reminders.remove(reminder)
